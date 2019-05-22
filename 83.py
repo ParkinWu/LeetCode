@@ -28,7 +28,8 @@ class Solution:
         if first.val == second.val:
             while second and first.val == second.val:
                 second = second.next
-            return self.deleteDuplicates(second)
+            first.next = second
+            return self.deleteDuplicates(first)
         else:
             next = self.deleteDuplicates(second)
             first.next = next
@@ -51,7 +52,3 @@ if __name__ == '__main__':
     sol = Solution()
     l1 = sol.deleteDuplicates(head)
     print(l1)
-
-
-
-
