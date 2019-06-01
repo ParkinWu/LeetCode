@@ -27,22 +27,25 @@ class ListNode:
 
 
 class Solution:
-
     def partition(self, head: ListNode, x: int) -> ListNode:
-        cur = head
-        while cur:
-            if cur.val == x:
-                break
-            cur = cur.next
-        if not cur:
-            return head
+        less_header = ListNode(0)
+        more_header = ListNode(0)
 
-        cur_x = cur
-        while cur_x:
-            if cur_x.val < x:
-                tmp = cur_x.next
+        less_p = less_header
+        more_p = more_header
 
-        cur
+        while head is not None:
+            if head.val < x:
+                less_p.next = head
+                less_p = head
+            else:
+                more_p.next = head
+                more_p = head
+            head = head.next
+        less_p.next = more_header.next
+        more_p.next = None
+
+        return less_header.next
 
 
 
@@ -60,8 +63,8 @@ def buildList(list: List[int]) -> ListNode:
 
 
 if __name__ == '__main__':
-    head = buildList([1, 4, 3, 2, 5, 2])
+    head = buildList([1, 4, 3])
     print(head)
     sol = Solution()
-    l = sol.partition(head, 3)
+    l = sol.partition(head, 4)
     print(l)
