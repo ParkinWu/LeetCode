@@ -31,54 +31,66 @@ def buildList(list: List[int]) -> ListNode:
     return head.next
 
 class Solution(object):
-    def reorderList(self, head):
+
+    def reverse(self, head: ListNode) -> ListNode:
+        cur = head
+        buffer = []
+        while cur:
+            buffer.append(cur)
+            cur = cur.next
+
+        newHead = ListNode(0)
+        cur = newHead
+        while len(buffer) > 0:
+            node = buffer.pop(-1)
+            node.next = None
+            cur.next = node
+            cur = cur.next
+        return newHead.next
+
+    def reorderList(self, head: ListNode) -> None:
         """
-        :type head: ListNode
-        :rtype: None Do not return anything, modify head in-place instead.
+        Do not return anything, modify head in-place instead.
         """
-        if head is None or head.next is None:
-            return head
+        if head is None:
+            return None
 
-        list = []
-        left = head
-        while left:
-            x = left
-            list.append(x)
-            left = left.next
-            x.next = None
+        fast = head
+        slow = head
+        while fast.next and fast.next.next:
+            fast = fast.next.next
+            slow = slow.next
 
-        n = len(list)
-        index = math.ceil(n / 2.0) - 1
-        tail = n - 1 - index
+        needReverse = slow.next
+        slow.next = None
 
-        
+        reversed = self.reverse(needReverse)
 
-        firstIndex = 0
-        tailIndex = n - 1
-        new = ListNode(0)
-        cur = new
-        while firstIndex < tailIndex:
-            first = list[firstIndex]
-            second = list[tailIndex]
-            second.next = None
-            first.next = second
-            cur.next = first
+        cur = head
+        insert = reversed
+        while insert:
+            tmp = cur.next
+            cur.next = insert
+            insertNext = insert.next
+            insert.next = None
+            insert.next = tmp
+            insert = insertNext
             cur = cur.next.next
-            firstIndex = firstIndex + 1
-            tailIndex = tailIndex - 1
-
-
-        if firstIndex is tailIndex:
-            cur.next = list[firstIndex]
-        return new.next
 
 
 if __name__ == '__main__':
-    head = buildList([1,3,3,1,3,1,3,3,2,3,2,2,1,1,1,3,2,2,1,1,2,2,2,3,3,1])
-    print(head)
     sol = Solution()
-    l = sol.reorderList(head)
-    print(l)
+    head = buildList([1,2,3,4,5,6])
+    sol.reorderList(head)
+    print(head)
+
+    head = buildList([1, 2, 3, 4, 5])
+    sol.reorderList(head)
+    print(head)
+
+    head = buildList([])
+    sol.reorderList(head)
+    print(head)
 
     # head = buildList([1, 2, 3, 4, 5, 6])
     # print(head)
