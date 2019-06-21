@@ -16,33 +16,27 @@ class ListNode:
 
 
 class Solution:
-
     def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
-
-        cur1 = l1
-        cur2 = l2
-        cur = head = ListNode(-1)
-
-        has_more = True
-        while has_more:
-            if cur1 and cur2:
-                if cur1.val <= cur2.val:
-                    cur.next = cur1
-                    cur1 = cur1.next
-                else:
-                    cur.next = cur2
-                    cur2 = cur2.next
-                cur = cur.next
-            elif cur1:
-                cur.next = cur1
-                has_more = False
-            elif cur2:
-                cur.next = cur2
-                has_more = False
+        newList = ListNode(0)
+        cur = newList
+        while l1 and l2:
+            if l1.val < l2.val:
+                tmp = l1
+                l1 = l1.next
+                tmp.next = None
+                cur.next = tmp
             else:
-                cur.next = None
-                has_more = False
-        return head.next
+                tmp = l2
+                l2 = l2.next
+                tmp.next = None
+                cur.next = tmp
+            cur = cur.next
+
+        if l1 is None:
+            cur.next = l2
+        if l2 is None:
+            cur.next = l1
+        return newList.next
 
 
 if __name__ == '__main__':
