@@ -61,7 +61,6 @@ class Solution:
         return head.next
 
 
-
 if __name__ == '__main__':
     l1 = ListNode(-9)
     l1.next = ListNode(3)
