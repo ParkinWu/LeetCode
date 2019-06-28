@@ -24,13 +24,15 @@ class Solution:
     def select(self, nums: List[int], n: int) -> List[List[int]]:
         if n == 0 or len(nums) < n:
             return [[]]
+        if n == len(nums):
+            return [nums]
         one = nums[:1]
         rest = self.select(nums[1:], n - 1)
         return list(map(lambda x: one + x, rest)) + self.select(nums[1:], n)
 
     def combine(self, n: int, k: int) -> List[List[int]]:
         nums = [i for i in range(1, n + 1)]
-        return list(filter(lambda l: len(l) == k, self.select(nums, k)))
+        return self.select(nums, k)
 
 
 if __name__ == '__main__':
