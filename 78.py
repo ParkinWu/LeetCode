@@ -24,14 +24,26 @@ from typing import List
 
 
 class Solution:
+
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        res = [[]]
-        for i in nums:
-            res = res + [[i] + num for num in res]
-        return res
+        ans = []
+        n = len(nums)
+
+        def backtracking(start: int, tmp: List[int]):
+            ans.append(tmp)
+            for i in range(start, n):
+                backtracking(i + 1, tmp + [nums[i]])
+        backtracking(0, [])
+        return ans
+
+    # def subsets(self, nums: List[int]) -> List[List[int]]:
+    #     res = [[]]
+    #     for i in nums:
+    #         res = res + [[i] + num for num in res]
+    #     return res
 
 
 if __name__ == '__main__':
     s = Solution()
-    r = s.subsets([1, 2, 3])
+    r = s.subsets([1, 2, 3, 4, 5])
     print(r)
