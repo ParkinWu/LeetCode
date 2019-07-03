@@ -26,32 +26,22 @@ from typing import List
 
 class Solution:
     def numTilePossibilities(self, tiles: str) -> List[str]:
-        subs = []
+        counter = [0] * 26
+        for alpha in tiles:
+            counter[ord(alpha) - ord('A')] += 1
+        return self.__dfs(counter)
 
-        n = len(tiles)
+    def __dfs(self, counter):
+        res = 0
+        for i in range(26):
+            if counter[i] == 0:
+                continue
+            res += 1
+            counter[i] -= 1
 
-        def subseq(start: int, s: List[str]):
-            if s:
-                subs.append(s)
-            for i in range(start, n):
-                if i > start and tiles[i] == tiles[i - 1]:
-                    continue
-                subseq(i + 1, s + [tiles[i]])
-
-        ans = []
-
-        def permute(start: int, nums: List[str], list: List[str]):
-            if len(list) == len(nums) and list not in ans:
-                ans.append(list.copy())
-                return
-            for i in range(start, n):
-                permute(i + 1, nums, list + [nums[i]])
-
-        subseq(0, [])
-
-        for i in subs:
-            permute(0, i, [])
-        return ans
+            res += self.__dfs(counter)
+            counter[i] += 1
+        return res
 
 
 if __name__ == '__main__':
