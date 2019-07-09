@@ -38,23 +38,23 @@ from typing import List
 
 class Solution:
     def findAnagrams(self, s: str, p: str) -> List[int]:
-        ret = []
-        charset = {}
+        m = len(s)
+        n = len(p)
+        if m < n:
+            return []
+        fre_s = [0] * 26
+        fre_p = [0] * 26
         for c in p:
-            charset[c] = 1
-        left = 0
-        right = 0
-        length = len(s)
-        while left < length and right < length:
-            if charset.get(s[right]):
-                if right - left + 1 == len(p):
-                    ret.append(left)
-                    left += 1
-                right += 1
-            else:
-                right += 1
-                left = right
-        return ret
+            fre_p[ord(c) - 97] += 1
+        for c in s[:n - 1]:
+            fre_s[ord(c) - 97] += 1
+        ans = []
+        for i in range(n - 1, m):
+            fre_s[ord(s[i]) - 97] += 1
+            if fre_s == fre_p:
+                ans.append(i - n + 1)
+            fre_s[ord(s[i - n + 1]) - 97] -= 1
+        return ans
 
 
 if __name__ == '__main__':
