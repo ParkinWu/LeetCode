@@ -17,3 +17,17 @@ from typing import List
 
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
+        res = [1] * len(nums)
+        for i in range(1, len(nums)):
+            res[i] = res[i - 1] * nums[i - 1]
+
+        tmp = 1
+        for i in reversed(range(0, len(nums) - 1)):
+            res[i] = nums[i + 1] * tmp * res[i]
+            tmp = tmp * nums[i + 1]
+        return res
+
+
+if __name__ == '__main__':
+    s = Solution()
+    print(s.productExceptSelf([1, 2, 3, 4]))
