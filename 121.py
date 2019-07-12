@@ -37,24 +37,40 @@ class Solution:
     #     return max(maxCostToday, self.maxProfit(prices))
 
 
+    # def maxProfit(self, prices: List[int]) -> int:
+    #     n = len(prices)
+    #     minPrice = float('inf')
+    #     maxBenifit = 0
+    #     for i in range(0, n):
+    #         if prices[i] < minPrice:
+    #             minPrice = prices[i]
+    #         elif (prices[i] - minPrice) > maxBenifit:
+    #             maxBenifit = prices[i] - minPrice
+    #
+    #     return maxBenifit
+
     def maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
-        minPrice = float('inf')
-        maxBenifit = 0
-        for i in range(0, n):
-            if prices[i] < minPrice:
-                minPrice = prices[i]
-            elif (prices[i] - minPrice) > maxBenifit:
-                maxBenifit = prices[i] - minPrice
+        if n < 2:
+            return 0
+        dp = [[0, 1] for _ in range(n)]
+        dp[0][0] = 0
+        dp[0][1] = -prices[0]
+        for i in range(1, n):
+            dp[i][0] = max(dp[i - 1][1] + prices[i], dp[i - 1][0])
+            dp[i][1] = max(- prices[i], dp[i - 1][1])
+        return dp[n - 1][0]
 
-        return maxBenifit
 
 
 if __name__ == '__main__':
     s = Solution()
-    maxCost = s.maxProfit([7, 1, 5, 3, 6, 4])
-    print(maxCost)
+    # maxCost = s.maxProfit([7, 1, 5, 3, 6, 4])
+    # print(maxCost)
+    #
+    # maxCost = s.maxProfit([7, 6, 4, 3, 1])
+    # print(maxCost)
 
-    maxCost = s.maxProfit([7, 6, 4, 3, 1])
+    maxCost = s.maxProfit([1, 2])
     print(maxCost)
 
