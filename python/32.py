@@ -18,20 +18,21 @@
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
         n = len(s)
-        if n < 2:
-            return 0
-        dp = [[0, 0] for _ in range(n)]
+        dp = [0] * n
+        ans = 0
         for i in range(1, n):
-            if s[i] == ')':
-                dp[i][0] = dp[i - 1][1] + 1
-                dp[i][1] = 0
-            if s[i] == '(':
-                dp[i][0] = 0
-                dp[i][1] = dp[i - 1][0]
-        return max(map(lambda x: x[0], dp)) * 2
+            if s[i] == ")":
+                if s[i - 1] == "(":
+                    dp[i] = 2 + (dp[i - 2] if i - 2 >= 0 else 0)
+                elif i - dp[i - 1] > 0 and s[i - dp[i - 1] - 1] == "(":
+                    dp[i] = dp[i - 1] + 2 + (dp[i - dp[i - 1] - 2] if i - dp[i - 1] - 2 >= 0 else 0)
+                ans = max(ans, dp[i])
+        return ans
 
 
 if __name__ == '__main__':
     s = Solution()
-    print(s.longestValidParentheses("(()"))
-    print(s.longestValidParentheses(")()())"))
+    # print(s.longestValidParentheses("(()"))
+    # print(s.longestValidParentheses(")()())"))
+    # print(s.longestValidParentheses(")("))
+    print(s.longestValidParentheses("()"))
