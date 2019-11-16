@@ -23,15 +23,22 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
 class Solution:
-    def maxDeepth(self, root: TreeNode) -> int:
+    def __init__(self):
+        self.ans = 0
+
+    def depth(self, root: TreeNode) -> int:
         if not root:
             return 0
-        return max(self.maxDeepth(root.left), self.maxDeepth(root.right)) + 1
-    # 包含根节点
+        l = self.depth(root.left)
+        r = self.depth(root.right)
+        self.ans = max(self.ans, l + r + 1)
+        return max(l, r) + 1
+
     def diameterOfBinaryTree(self, root: TreeNode) -> int:
         if not root:
             return 0
-        left = self.diameterOfBinaryTree(root.left)
-        right = self.diameterOfBinaryTree(root.right)
-        return max([left, right, self.maxDeepth(root)])
+
+        self.depth(root)
+        return self.ans - 1
