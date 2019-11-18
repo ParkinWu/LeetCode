@@ -21,28 +21,16 @@ from typing import List
 
 class Solution:
     def findLongestChain(self, pairs: List[List[int]]) -> int:
-        n = len(pairs)
-        if n < 2:
-            return 0
-        dp = [1] * n
-        for i in range(0, n):
-            l = [pairs[i]]
-            head = pairs[i]
-            for j in range(n):
-                if head[0] <= pairs[j][1]:
-                    continue
-                head = pairs[j]
-                l.insert(0, pairs[j])
-                dp[i] = max(dp[j] + 1, dp[i])
-            print(l)
-        return max(dp)
+        pairs.sort(key=lambda p: p[1])
+        tmp = pairs[0]
+        ans = 1
+        for p in pairs:
+            if p[0] > tmp[1]:
+                tmp = p
+                ans += 1
+        return ans
 
 
 if __name__ == '__main__':
     s = Solution()
-    print(s.findLongestChain([[9, 10], [9, 10], [4, 5], [-9, -3], [-9, 1], [0, 3], [6, 10], [-5, -4], [-7, -6]]))
-    print(s.findLongestChain([[-1, 1], [-2, 7], [-5, 8], [-3, 8], [1, 3], [-2, 9], [-5, 2]]))
-    print(s.findLongestChain([[3, 4], [2, 3], [1, 2]]))
-    print(s.findLongestChain([[1, 2], [2, 3]]))
-    print(s.findLongestChain([[1, 2], [2, 3], [3, 4]]))
-    print(s.findLongestChain([[1, 2], [2, 3], [3, 4], [5, 6], [6, 7], [8, 9]]))
+    assert s.findLongestChain([[1, 2], [2, 3], [3, 4]]) == 2
