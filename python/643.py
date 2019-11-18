@@ -18,21 +18,39 @@
 from typing import List
 
 class Solution:
+    # Solution 1
+    # def findMaxAverage(self, nums: List[int], k: int) -> float:
+    #     n = len(nums)
+    #     dp = [0] * n
+    #     sum = 0
+    #     for i in range(n):
+    #         sum += nums[i]
+    #         dp[i] = sum
+    #
+    #     aver = dp[k - 1] / k
+    #     for i in range(k, n):
+    #         aver = max(aver, (dp[i] - dp[i - k]) / k)
+    #     return aver
+
+    # Solution 2
     def findMaxAverage(self, nums: List[int], k: int) -> float:
         n = len(nums)
-        dp = [0] * n
         sum = 0
-        for i in range(n):
+        for i in range(k):
             sum += nums[i]
-            dp[i] = sum
 
-        aver = dp[k - 1] / k
+        ans = sum
         for i in range(k, n):
-            aver = max(aver, (dp[i] - dp[i - k]) / k)
-        return aver
+            sum = sum - nums[i - k] + nums[i]
+            ans = max(ans, sum)
+
+        return ans / k
+
 
 if __name__ == '__main__':
     s = Solution()
-    assert s.findMaxAverage([1,12,-5,-6,50,3], 4) == 12.75
+    # assert s.findMaxAverage([1,12,-5,-6,50,3], 4) == 12.75
+    # assert s.findMaxAverage([0, 1, 1, 3, 3], 4) == 2
+    assert s.findMaxAverage([4, 2, 1, 3, 3], 2) == 3
 
 
