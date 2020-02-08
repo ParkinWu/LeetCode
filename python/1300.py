@@ -39,12 +39,12 @@ class Solution:
         return acc
 
     def findBestValue(self, arr: List[int], target: int) -> int:
-        sored_arr = sorted(arr)
+        arr.sort()
         left = target // len(arr)
-        right = sored_arr[-1] + 1
+        right = arr[-1] + 1
         while left < right:
             mid = (left + right) // 2
-            acc = self.calculateSum(sored_arr, mid)
+            acc = self.calculateSum(arr, mid)
             if acc > target:
                 right = mid
             else:
