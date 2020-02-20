@@ -30,78 +30,31 @@
 # 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 from typing import List
 
-# Definition for a binary tree node.
 class TreeNode:
     def __init__(self, x):
         self.val = x
         self.left = None
         self.right = None
 
-    def __str__(self):
-        return str(self.val)
-
-    def __eq__(self, other):
-        if isinstance(other, TreeNode):
-            return self.val == other.val
-        return False
-
-
-def build_tree(l: List[int]) -> TreeNode:
-    l = [0] + l
-    i = 1
-    ans = None
-
-    nodes = list(map(lambda val: TreeNode(val) if val != None else None, l))
-
-    while 2 * i < len(nodes):
-        node = nodes[i]
-        if i == 1:
-            ans = node
-        left = nodes[2 * i]
-        right = nodes[2 * i + 1]
-        node.left = left
-        node.right = right
-        i += 1
-    return ans
-
-
-def print_tree(root: TreeNode) -> str:
-    s = " "
-    if not root:
-        return " "
-    queue = [root]
-    while queue:
-        for n in queue:
-            if n == None:
-                s += "N"
-            else:
-                s += str(n)
-            s += " "
-        new_queue = []
-        for n in queue:
-            if not n:
-                continue
-            new_queue.append(n.left)
-            new_queue.append(n.right)
-            s += "  "
-        queue = new_queue
-        s += "\n"
-    return s
-
-
 class Solution:
-    def lowestCommonAncestor(self, root, p, q):
-        if not root or p == root or q == root:
-            return root
-        left = self.lowestCommonAncestor(root.left, p, q)
-        right = self.lowestCommonAncestor(root.right, p, q)
-        return right if not left else left if not right else root
 
+    def __init__(self):
+        self.ans = None
 
-if __name__ == '__main__':
-    root = build_tree([3, 5, 1, 6, 2, 0, 8, None, None, 7, 4])
-    print(print_tree(root))
-    s = Solution()
-    print(s.lowestCommonAncestor(root, TreeNode(5), TreeNode(0)))
+    def travel(self, root: TreeNode, p: TreeNode, q: TreeNode) -> bool:
+        if not root:
+            return False
+
+        mid = 1 if root.val == p.val or root.val == q.val else 0
+        left = 1 if self.travel(root.left, p, q) else 0
+        right = 1 if self.travel(root.right, p, q) else 0
+        if mid + left + right >= 2:
+            self.ans = root
+        return left + right + mid > 0
+
+    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
+        self.travel(root, p, q)
+        return self.ans
+
 
 
