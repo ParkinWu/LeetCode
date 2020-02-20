@@ -19,8 +19,10 @@
 # @param num, your guess
 # @return -1 if my number is lower, 1 if my number is higher, otherwise return 0
 
-# def guess(num):
-#     return 1
+def guess(num):
+    return 1
+
+
 
 class Solution(object):
     def guessNumber(self, n):
@@ -29,13 +31,12 @@ class Solution(object):
         :rtype: int
         """
         left = 0
-        right = n
-        while left <= right:
+        right = n - 1
+        while left < right:
             mid = (left + right) // 2
-            ret = guess(mid)
-            if ret == -1:
-                right = mid - 1
-            elif ret == 1:
-                left = mid + 1
+            ret = guess(mid + 1)
+            if ret <= 0:
+                right = mid
             else:
-                return mid
+                left = mid + 1
+        return left
