@@ -20,19 +20,22 @@
 
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        ans = 0
+        length = len(s)
+        if length <= 1:
+            return length
         left = 0
         right = 0
-        length = len(s)
-        charset = [-1] * 127
-        while left < length and right < length:
-            if charset[ord(s[right])] < 0:
-                charset[ord(s[right])] = 1
-                right = right + 1
-                ans = max(ans, right - left)
+        chars = set([])
+        ans = 0
+        while left <= right < length:
+            c = s[right]
+            if c in chars:
+                chars.remove(s[left])
+                left += 1
             else:
-                charset[ord(s[left])] = -1
-                left = left + 1
+                chars.add(s[right])
+                right += 1
+                ans = max(ans, len(chars))
         return ans
 
 
