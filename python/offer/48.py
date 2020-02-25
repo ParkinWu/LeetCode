@@ -1,0 +1,59 @@
+# 请从字符串中找出一个最长的不包含重复字符的子字符串，计算该最长子字符串的长度。
+#
+#  
+#
+# 示例 1:
+#
+# 输入: "abcabcbb"
+# 输出: 3
+# 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+# 示例 2:
+#
+# 输入: "bbbbb"
+# 输出: 1
+# 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+# 示例 3:
+#
+# 输入: "pwwkew"
+# 输出: 3
+# 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+#      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+#  
+#
+# 提示：
+#
+# s.length <= 40000
+# 注意：本题与主站 3 题相同：https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
+#
+# 来源：力扣（LeetCode）
+# 链接：https://leetcode-cn.com/problems/zui-chang-bu-han-zhong-fu-zi-fu-de-zi-zi-fu-chuan-lcof
+# 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        length = len(s)
+        if length <= 1:
+            return length
+        left = 0
+        right = 0
+        chars = set([])
+        ans = 0
+        while left <= right < length:
+            c = s[right]
+            if c in chars:
+                chars.remove(s[left])
+                left += 1
+            else:
+                chars.add(s[right])
+                right += 1
+                ans = max(ans, len(chars))
+        return ans
+
+
+if __name__ == '__main__':
+    s = Solution()
+    assert s.lengthOfLongestSubstring("pwwkew") == 3
+    assert s.lengthOfLongestSubstring("dvdf") == 3
+    assert s.lengthOfLongestSubstring("aab") == 2
+    assert s.lengthOfLongestSubstring("abcabcbb") == 3
+    assert s.lengthOfLongestSubstring("bbbbb") == 1
