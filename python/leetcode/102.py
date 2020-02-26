@@ -47,6 +47,23 @@ class Solution:
             siblings = tmp
         return ans
 
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        worklist = [[root]]
+        ans = []
+        while worklist:
+            nodes = worklist.pop(0)
+            inside = []
+            for n in nodes:
+                if n.left: inside.append(n.left)
+                if n.right: inside.append(n.right)
+            if inside:
+                worklist.append(inside)
+                ans.append(list(map(lambda x: x.val, inside)))
+        return ans
+
 
 
 
